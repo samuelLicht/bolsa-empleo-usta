@@ -16,7 +16,7 @@ app.use(cors());
 app.use(express.json());
 
 // Rutas (se descomentan conforme se desarrollan)
-// app.use('/api/students', require('./routes/student.routes'));
+app.use('/api/students', require('./routes/student.routes'));
 // app.use('/api/companies', require('./routes/company.routes'));
 // app.use('/api/jobs', require('./routes/job.routes'));
 // app.use('/api/applications', require('./routes/application.routes'));
