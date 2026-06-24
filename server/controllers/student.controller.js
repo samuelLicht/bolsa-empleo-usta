@@ -21,8 +21,8 @@ const register = async (req, res) => {
       student: { id: student._id, name: student.name, email: student.email },
     });
   } catch (error) {
-  res.status(500).json({ message: error.message });
-}
+    res.status(500).json({ message: error.message });
+  }
 };
 
 const login = async (req, res) => {
@@ -47,4 +47,39 @@ const login = async (req, res) => {
   }
 };
 
-module.exports = { register, login };
+const getProfile = async (req, res) => {
+  try {
+    const student = await Student.findById(req.user.id).select('-password');
+    if (!student) {
+      return res.status(404).json({ message: 'Estudiante no encontrado' });
+    }
+    res.status(200).json({ success: true, student });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+const updateProfile = async (req, res) => {
+  try {
+    const allowedFields = ['name', 'birthDate', 'photo', 'career', 'semester', 'skills', 'description', 'cvLink'];
+    const updates = {};
+    allowedFields.forEach(field => {
+      if (req.body[field] !== undefined) {
+        updates[field] = req.body[field];
+      }
+    });
+    const student = await Student.findByIdAndUpdate(
+      req.user.id,
+      updates,
+      { new: true, runValidators: true }
+    ).select('-password');
+    if (!student) {
+      return res.status(404).json({ message: 'Estudiante no encontrado' });
+    }
+    res.status(200).json({ success: true, student });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+module.exports = { register, login, getProfile, updateProfile };
