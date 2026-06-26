@@ -1,31 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const { registerCompany, loginCompany, getCompanies } = require('../controllers/company.controller');
+const { registerCompany, loginCompany, getCompanyProfile,  updateCompanyProfile} = require('../controllers/company.controller');
+const { verifyToken: protect } = require('../middlewares/auth.middleware');
+const { verifyRole } = require('../middlewares/role.middleware');
+
 
 //*Rutas públicas 
-/**
- * @swagger
- * /api/companies:
- *   get:
- *     summary: Obtener todas las empresas
- *     tags: [Companies]
- *     responses:
- *       200:
- *         description: Lista de empresas
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 companies:
- *                   type: array
- *                   items:
- *                     $ref: '#/components/schemas/Company'
- *       500:
- *         description: Error del servidor
- */
-router.get('/', getCompanies);
-
 /**
  * @swagger
  * /api/companies/register:
@@ -77,5 +57,75 @@ router.post('/register', registerCompany);
  *         description: Error del servidor
  */
 router.post('/login', loginCompany);
+
+/**
+ * @swagger
+ * /api/companies/profile:
+ *   get:
+ *     summary: Ver perfil de la empresa autenticada
+ *     tags: [Companies]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Perfil de empresa obtenido correctamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 company:
+ *                   $ref: '#/components/schemas/Company'
+ *       401:
+ *         description: Token no proporcionado, invalido o expirado
+ *       403:
+ *         description: El usuario autenticado no tiene rol de empresa
+ *       404:
+ *         description: Empresa no encontrada
+ *       500:
+ *         description: Error del servidor
+ */
+router.get('/profile', protect, verifyRole('company'), getCompanyProfile);
+
+/**
+ * @swagger
+ * /api/companies/profile:
+ *   put:
+ *     summary: Editar perfil de la empresa autenticada
+ *     tags: [Companies]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/CompanyUpdateProfile'
+ *     responses:
+ *       200:
+ *         description: Perfil de empresa actualizado correctamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: Perfil de empresa actualizado correctamente
+ *                 company:
+ *                   $ref: '#/components/schemas/Company'
+ *       401:
+ *         description: Token no proporcionado, invalido o expirado
+ *       403:
+ *         description: El usuario autenticado no tiene rol de empresa
+ *       404:
+ *         description: Empresa no encontrada
+ *       500:
+ *         description: Error del servidor
+ */
+router.put('/profile', protect, verifyRole('company'), updateCompanyProfile);
 
 module.exports = router;

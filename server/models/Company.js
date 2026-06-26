@@ -30,7 +30,7 @@ const bcrypt = require('bcryptjs');
  *           example: "3001234567"
  *         sector:
  *           type: string
- *           example: Tecnologia
+ *           example: Tecnología
  *         city:
  *           type: string
  *           example: Bogota
@@ -46,9 +46,6 @@ const bcrypt = require('bcryptjs');
  *         companySize:
  *           type: string
  *           example: 11-50
- *         businessName:
- *           type: string
- *           example: Tech USTA S.A.S.
  *         isVerified:
  *           type: boolean
  *           example: false
@@ -65,7 +62,6 @@ const bcrypt = require('bcryptjs');
  *         - nit
  *         - email
  *         - password
- *         - businessName
  *       properties:
  *         companyName:
  *           type: string
@@ -91,17 +87,17 @@ const bcrypt = require('bcryptjs');
  *         sector:
  *           type: string
  *           enum:
- *             - Tecnologia
+ *             - Tecnología
  *             - Salud
- *             - Educacion
+ *             - Educación
  *             - Financiero
  *             - Industrial
  *             - Comercio
- *             - Construccion
+ *             - Construcción
  *             - Transporte
  *             - Agropecuario
  *             - Otro
- *           example: Tecnologia
+ *           example: Tecnología
  *         city:
  *           type: string
  *           example: Bogota
@@ -115,7 +111,7 @@ const bcrypt = require('bcryptjs');
  *           type: string
  *           enum:
  *             - Privada
- *             - Publica
+ *             - Pública
  *             - Mixta
  *             - Otro
  *           example: Privada
@@ -129,9 +125,6 @@ const bcrypt = require('bcryptjs');
  *             - 501-1000
  *             - 1001+
  *           example: 11-50
- *         businessName:
- *           type: string
- *           example: Tech USTA S.A.S.
  *         isVerified:
  *           type: boolean
  *           example: false
@@ -148,6 +141,60 @@ const bcrypt = require('bcryptjs');
  *         password:
  *           type: string
  *           example: 123456
+ *     CompanyUpdateProfile:
+ *       type: object
+ *       properties:
+ *         companyName:
+ *           type: string
+ *           example: Tech USTA Actualizada
+ *         companyLogo:
+ *           type: string
+ *           nullable: true
+ *           example: https://techusta.com/nuevo-logo.png
+ *         phone:
+ *           type: string
+ *           example: "3019876543"
+ *         sector:
+ *           type: string
+ *           enum:
+ *             - TecnologÃ­a
+ *             - Salud
+ *             - EducaciÃ³n
+ *             - Financiero
+ *             - Industrial
+ *             - Comercio
+ *             - ConstrucciÃ³n
+ *             - Transporte
+ *             - Agropecuario
+ *             - Otro
+ *           example: TecnologÃ­a
+ *         city:
+ *           type: string
+ *           example: Bogota
+ *         website:
+ *           type: string
+ *           example: https://techusta.com
+ *         companyDescription:
+ *           type: string
+ *           example: Empresa especializada en desarrollo de software y consultoria TI
+ *         companyType:
+ *           type: string
+ *           enum:
+ *             - Privada
+ *             - PÃºblica
+ *             - Mixta
+ *             - Otro
+ *           example: Privada
+ *         companySize:
+ *           type: string
+ *           enum:
+ *             - 1-10
+ *             - 11-50
+ *             - 51-200
+ *             - 201-500
+ *             - 501-1000
+ *             - 1001+
+ *           example: 11-50
  *     CompanyAuthResponse:
  *       type: object
  *       properties:
@@ -224,11 +271,6 @@ const companySchema = new mongoose.Schema(
         companySize: {
             type: String,
             enum: ["1-10", "11-50", "51-200", "201-500", "501-1000", "1001+"],
-        },
-        businessName: {
-            type: String,
-            required: true,
-            trim: true
         },
         isVerified: {
             type: Boolean,
