@@ -23,7 +23,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 // Rutas (se descomentan conforme se desarrollan)
 app.use('/api/students', require('./routes/student.routes'));
 app.use('/api/companies', require('./routes/company.routes'));
-// app.use('/api/jobs', require('./routes/job.routes'));
+app.use('/api/job-offers', require('./routes/jobOffer.routes'));
 // app.use('/api/applications', require('./routes/application.routes'));
 // app.use('/api/admin', require('./routes/admin.routes'));
 

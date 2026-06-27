@@ -74,6 +74,7 @@ router.post('/register', register);
 router.post('/login', login);
 
 // Rutas protegidas — requieren token JWT y rol estudiante
+router.get('/profile', protect, verifyRole('student'), getProfile);
 /**
  * @swagger
  * /api/students/profile:
