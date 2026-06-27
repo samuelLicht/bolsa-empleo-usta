@@ -75,6 +75,74 @@ router.post('/login', login);
 
 // Rutas protegidas — requieren token JWT y rol estudiante
 router.get('/profile', protect, verifyRole('student'), getProfile);
+/**
+ * @swagger
+ * /api/students/profile:
+ *   get:
+ *     summary: Ver perfil del estudiante autenticado
+ *     tags: [Students]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Perfil de estudiante obtenido correctamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 student:
+ *                   $ref: '#/components/schemas/Student'
+ *       401:
+ *         description: Token no proporcionado, invalido o expirado
+ *       403:
+ *         description: El usuario autenticado no tiene rol de estudiante
+ *       404:
+ *         description: Estudiante no encontrado
+ *       500:
+ *         description: Error del servidor
+ */
+router.get('/profile', protect, verifyRole('student'), getProfile);
+
+/**
+ * @swagger
+ * /api/students/profile:
+ *   put:
+ *     summary: Editar perfil del estudiante autenticado
+ *     tags: [Students]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/StudentUpdateProfile'
+ *     responses:
+ *       200:
+ *         description: Perfil de estudiante actualizado correctamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 student:
+ *                   $ref: '#/components/schemas/Student'
+ *       401:
+ *         description: Token no proporcionado, invalido o expirado
+ *       403:
+ *         description: El usuario autenticado no tiene rol de estudiante
+ *       404:
+ *         description: Estudiante no encontrado
+ *       500:
+ *         description: Error del servidor
+ */
 router.put('/profile', protect, verifyRole('student'), updateProfile);
 
 module.exports = router;
