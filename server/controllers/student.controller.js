@@ -132,4 +132,23 @@ const applyToJob = async (req, res) => {
   }
 };
 
-module.exports = { register, login, getProfile, updateProfile, getJobs, applyToJob };
+const getApplicationHistory = async (req, res) => {
+  try {
+    const applications = await Application.find({ student: req.user.id })
+      .populate({
+        path: 'jobOffer',
+        select: 'title location modality contractType salary salaryCurrency status',
+        populate: {
+          path: 'company',
+          select: 'name email',
+        },
+      })
+      .sort({ createdAt: -1 });
+
+    res.status(200).json({ success: true, total: applications.length, applications });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+module.exports = { register, login, getProfile, updateProfile, getJobs, applyToJob, getApplicationHistory };
