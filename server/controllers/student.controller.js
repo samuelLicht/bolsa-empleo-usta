@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const Student = require('../models/Student');
+const JobOffer = require('../models/JobOffer');
 const { JWT_SECRET, JWT_EXPIRES_IN } = require('../config/env');
 
 const generateToken = (id, role) => {
@@ -82,4 +83,25 @@ const updateProfile = async (req, res) => {
   }
 };
 
-module.exports = { register, login, getProfile, updateProfile };
+const getJobs = async (req, res) => {
+  try {
+    const { location, modality, contractType, salaryCurrency } = req.query;
+
+    const filter = { status: 'Activo' };
+
+    if (location) filter.location = { $regex: location, $options: 'i' };
+    if (modality) filter.modality = modality;
+    if (contractType) filter.contractType = contractType;
+    if (salaryCurrency) filter.salaryCurrency = salaryCurrency;
+
+    const jobs = await JobOffer.find(filter)
+      .populate('company', 'name email')
+      .sort({ createdAt: -1 });
+
+    res.status(200).json({ success: true, total: jobs.length, jobs });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+module.exports = { register, login, getProfile, updateProfile, getJobs };
