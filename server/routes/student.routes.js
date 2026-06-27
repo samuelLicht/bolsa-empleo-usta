@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { register, login, getProfile, updateProfile, getJobs } = require('../controllers/student.controller');
+const { register, login, getProfile, updateProfile, getJobs, applyToJob } = require('../controllers/student.controller');
 const { verifyToken: protect } = require('../middlewares/auth.middleware');
 const { verifyRole } = require('../middlewares/role.middleware');
 
@@ -12,5 +12,6 @@ router.post('/login', login);
 router.get('/profile', protect, verifyRole('student'), getProfile);
 router.put('/profile', protect, verifyRole('student'), updateProfile);
 router.get('/jobs', protect, verifyRole('student'), getJobs);
+router.post('/apply', protect, verifyRole('student'), applyToJob);
 
 module.exports = router;

@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const Student = require('../models/Student');
 const JobOffer = require('../models/JobOffer');
+const Application = require('../models/Application');
 const { JWT_SECRET, JWT_EXPIRES_IN } = require('../config/env');
 
 const generateToken = (id, role) => {
@@ -104,4 +105,31 @@ const getJobs = async (req, res) => {
   }
 };
 
-module.exports = { register, login, getProfile, updateProfile, getJobs };
+const applyToJob = async (req, res) => {
+  try {
+    const { jobOfferId, coverLetter } = req.body;
+
+    const jobOffer = await JobOffer.findById(jobOfferId);
+    if (!jobOffer) {
+      return res.status(404).json({ message: 'Oferta no encontrada' });
+    }
+    if (jobOffer.status !== 'Activo') {
+      return res.status(400).json({ message: 'La oferta no está disponible' });
+    }
+
+    const application = await Application.create({
+      student: req.user.id,
+      jobOffer: jobOfferId,
+      coverLetter,
+    });
+
+    res.status(201).json({ success: true, application });
+  } catch (error) {
+    if (error.code === 11000) {
+      return res.status(400).json({ message: 'Ya aplicaste a esta oferta' });
+    }
+    res.status(500).json({ message: error.message });
+  }
+};
+
+module.exports = { register, login, getProfile, updateProfile, getJobs, applyToJob };
