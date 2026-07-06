@@ -1,6 +1,6 @@
 //! aca van como tal todas las fucniones que nos ofrece el modelo 
 const JobOffer = require('../models/JobOffer');
-
+const Company = require('../models/Company');
 
 //* Crear una nueva oferta de trabajo */
 const createJobOffer = async (req, res) => {
@@ -16,6 +16,19 @@ const createJobOffer = async (req, res) => {
       salaryCurrency,
       status,
     } = req.body;
+
+    const company = await Company.findById(req.user.id);
+    if (!company) {
+       return res.status(404).json({
+       message: 'Empresa no encontrada',
+    });
+    }
+
+    if (!company.isVerified) {
+      return res.status(403).json({
+      message: 'La empresa debe estar aprobada para publicar ofertas',
+      });
+    } 
 
     const jobOffer = await JobOffer.create({
       title,
