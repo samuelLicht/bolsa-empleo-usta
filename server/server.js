@@ -25,7 +25,7 @@ app.use('/api/students', require('./routes/student.routes'));
 app.use('/api/companies', require('./routes/company.routes'));
 app.use('/api/job-offers', require('./routes/jobOffer.routes'));
 app.use('/api/applications', require('./routes/application.routes'));
-// app.use('/api/admin', require('./routes/admin.routes'));
+app.use('/api/admin', require('./routes/admin.routes'));
 
 // Ruta base
 
