@@ -276,6 +276,11 @@ const companySchema = new mongoose.Schema(
             type: Boolean,
             default: false,
         },
+        status: {
+  type: String,
+  enum: ['Pendiente', 'Aprobada', 'Rechazada'],
+  default: 'Pendiente',
+},
     },
     { timestamps: true}
 );
