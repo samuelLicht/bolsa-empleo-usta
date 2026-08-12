@@ -17,11 +17,7 @@ function RegistrerMascot({ compact = false }) {
           className="absolute right-6 top-3 z-30 w-24"
         />
 
-        <img
-          src={university}
-          alt=""
-          className="absolute bottom-7 right-[-18%] z-10 w-[118%]"
-        />
+       
 
         <img
           src={blue}
