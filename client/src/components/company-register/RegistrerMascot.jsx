@@ -3,6 +3,9 @@ import mascotaCompany from "../../assets/login/mascot/company-mascot-happy.png";
 
 import blue from "../../assets/login/decorations/blue-shape.svg";
 import yellow from "../../assets/login/decorations/yellow.png";
+import university_1 from "../../assets/login/backgrounds/university.webp";
+
+
 
 
 import university from "../../assets/login/decorations/universidad-santoto.webp";
@@ -17,12 +20,16 @@ function RegistrerMascot({ compact = false }) {
           className="absolute right-6 top-3 z-30 w-24"
         />
 
-       
+        <img
+          src={university_1}
+          alt=""
+          className="absolute bottom-10 right-0 z-10 "
+        />
 
         <img
           src={blue}
           alt=""
-          className="absolute bottom-3 right-2 z-20 w-[62%]"
+          className="absolute bottom-8 left-4 z-20 w-[62%]"
         />
 
         <img
